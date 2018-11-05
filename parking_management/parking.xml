@@ -1,0 +1,224 @@
+<odoo>
+	<data>
+		
+	<record model="ir.ui.view" id="parkir_id">
+		<field name="name">parking_management.tree</field>
+		<field name="model">parking_management</field>
+		<field name="arch" type="xml">
+		  <tree string="Daftar Parkir">
+		  	<field name="staff_id"/>
+			<field name="vehicle_number"/>
+			<field name="vehicle_type"/>	
+			<field name="parking_start"/>
+			<field name="parking_end"/>
+			<field name="state"/>	
+			<field name="billing_id"/>
+		  </tree>
+		</field>
+	</record>
+		
+	<record model="ir.ui.view" id="parking_id">
+		<field name="name">parking_management.form</field>
+		<field name="model">parking_management</field>
+		<field name="arch" type="xml">
+			<form string="Daftar Parkir">
+				
+			  <header>
+				<button name="action_confirm" type="object" string="In" states="out" class="btn-primary"/>
+				<button name="action_cancel" type="object" string="Out" states="in" class="btn-primary" />
+				<button name="action_close" type="object" string="Paid" states="out" class="btn-primary"/>
+				<field name="state" widget="statusbar" statusbar_visible="in,out,paid"/>
+			  </header>
+				
+			 <sheet>
+				<group>
+					
+						<field name="vehicle_number"/>
+						<field name="vehicle_type"/>	
+						<field name="parking_start"/>
+						<field name="parking_end"/>	
+						<field name="billing_id"/>
+						<field name="staff_id"/>		
+				</group>
+				
+				
+						<!--field name="vehicle_number_ids">
+							<tree string='Nomor Kendaraan'>
+								<field name='vehicle_number_id'/>
+								<field name='vehicle_tipe'/>
+								<field name='owner'/>								
+								<field name='billing_id'/>
+							</tree>
+							
+						</field-->
+				
+				
+			  </sheet>
+			</form>
+		</field>
+	</record>
+	
+<!-- Kanban -->
+
+
+	<record id="view_parking_management_kanban" model="ir.ui.view">
+        <field name="name">parking_management.kanban.view</field>
+        <field name="model">parking_management</field>
+        <field name="arch" type="xml">
+            <kanban create="false">
+                <field name="vehicle_number"/>
+                <templates>
+                    <t t-name="kanban-box">
+                      <div class="row">	
+                        <div class="col-xs-6 o_kanban_primary_left">
+                        	
+                            <button class="btn btn-primary" name="open_session_cb" type="object">Sesi Baru</button>
+                        </div>
+                      </div>   
+                    </t>
+                </templates>
+				                
+                
+			</kanban>                
+          </field>      	
+    </record>
+		
+	<record model="ir.actions.act_window" id="parkir_action">
+		<field name="name">Sistem Terpadu Online Parkiran</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">parking_management</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">kanban,tree,form</field>
+		<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Silahkan klik "Create" untuk memulai
+				<br><br>Jangan Lupa "Check In" absen!</br></br></p>
+		</field>
+	</record>
+	
+
+	<menuitem id="main_parkir_menu" name="STOP" web_icon="parking_management,static/description/icon.png"/>	
+		
+	<menuitem id="parkir_odoo_menu" name="Parking Sistem" parent="main_parkir_menu" action="parkir_action"/>
+	
+				
+	
+		
+		
+			
+		
+<!--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ Batas ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ--> 	
+		
+<record model="ir.ui.view" id="sesi_tree_view">
+		<field name="name">type_vehicle.tree</field>
+		<field name="model">type_vehicle</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="vehicle_id"/>
+				<field name="billing_ids"/>
+			</tree>
+		</field>
+	</record>
+		
+		
+<!-- ### Membuat Tampilan Form Sesi ### -->
+	<record model="ir.ui.view" id="sesi_form_view">
+		<field name="name">type_vehicle.form</field>
+		<field name="model">type_vehicle</field>
+		<field name="arch" type="xml">
+			<form string="Sesi Form">
+						
+				<sheet>
+					<group string="Informasi">
+						<field name="vehicle_id"/>
+						<field name="billing_ids"/>
+					</group>	
+					
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	
+<!-- ### Membuat Action/Event Object Sesi ### -->
+	<record model="ir.actions.act_window" id="jenis_tarif_action">
+		<field name="name">Jenis dan Tarif Kendaraan</field>
+		<field name="res_model">type_vehicle</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+	
+	<menuitem id="configuration" name="Konfigurasi" parent="main_parkir_menu"/>
+	
+<!-- ### Membuat Sub Menu Sesi ### -->
+	<menuitem id="tarif_id" name="Jenis dan Tarif" parent="configuration" action="jenis_tarif_action"/>	
+		
+<!--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ Batas ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ--> 		
+		
+	<record model="ir.ui.view" id="sesi_tree_view">
+		<field name="name">vehicle_log.tree</field>
+		<field name="model">vehicle_log</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="vehicle_number"/>
+				<field name="vehicle_tipe"/>
+				<field name="owner"/>
+			</tree>
+		</field>
+	</record>
+		
+		
+<!-- ### Membuat Tampilan Form Sesi ### -->
+	<record model="ir.ui.view" id="sesi_form_view">
+		<field name="name">vehicle_log.form</field>
+		<field name="model">vehicle_log</field>
+		<field name="arch" type="xml">
+			<form string="Sesi Form">
+						
+				<sheet>
+					<group string="Informasi">
+						<field name="vehicle_number"/>
+						<field name="vehicle_tipe"/>
+						<field name="owner"/>
+					</group>	
+					
+				</sheet>
+			</form>
+		</field>
+	</record>
+	
+	
+<!-- ### Membuat Action/Event Object Sesi ### -->
+	<record model="ir.actions.act_window" id="log_tarif_action">
+		<field name="name">List Nomor Kendaraan Parkir</field>
+		<field name="res_model">vehicle_log</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+	
+	
+<!-- ### Membuat Sub Menu Sesi ### -->
+	<menuitem id="log_id" name="Nomor Kendaraan" parent="configuration" action="log_tarif_action"/>	
+	
+<!--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ Batas ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ--> 		
+		
+		
+		
+	<record model="ir.ui.view" id="integrasi_form_view">
+		<field name="name">res.partner.form</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form"/>
+		<field name="arch" type="xml">
+		        
+        <notebook>
+        	<page string='List Kendaraan'>
+        		<field name='vehicle_log_ids'/>
+        	</page>
+        </notebook>
+        
+        </field>	
+    </record>   
+	
+	</data>
+</odoo>
